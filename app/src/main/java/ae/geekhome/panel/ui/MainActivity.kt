@@ -1,6 +1,5 @@
 package ae.geekhome.panel.ui
 
-import ae.geekhome.panel.coap.CoapService
 import ae.geekhome.panel.navigation.NavigationScaffold
 import ae.geekhome.panel.ui.theme.AEPanelTheme
 import android.os.Bundle
@@ -13,14 +12,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
-
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
-    @Inject
-    lateinit var coapService: CoapService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -35,30 +29,15 @@ class MainActivity : ComponentActivity() {
             )
         }
     }
-
-    override fun onStart() {
-        super.onStart()
-        coapService.start()
-    }
-
-    override fun onStop() {
-        coapService.stop()
-        super.onStop()
-    }
 }
 
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
+    Text(text = "Hello $name!", modifier = modifier)
 }
 
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
-    AEPanelTheme {
-        Greeting("Android")
-    }
+    AEPanelTheme { Greeting("Android") }
 }

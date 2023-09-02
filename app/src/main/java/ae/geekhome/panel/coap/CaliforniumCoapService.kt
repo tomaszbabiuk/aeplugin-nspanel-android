@@ -1,6 +1,11 @@
 package ae.geekhome.panel.coap
 
 import android.util.Log
+import java.net.InetSocketAddress
+import java.util.concurrent.Executor
+import java.util.concurrent.Executors
+import javax.inject.Inject
+import javax.inject.Singleton
 import org.eclipse.californium.core.CoapServer
 import org.eclipse.californium.core.coap.CoAP
 import org.eclipse.californium.core.network.CoapEndpoint
@@ -9,35 +14,41 @@ import org.eclipse.californium.elements.UDPConnector
 import org.eclipse.californium.elements.UdpMulticastConnector
 import org.eclipse.californium.elements.config.Configuration
 import org.eclipse.californium.elements.util.NetworkInterfacesUtil
-import java.net.InetSocketAddress
-import java.util.concurrent.Executor
-import java.util.concurrent.Executors
-import javax.inject.Inject
 
-
+@Singleton
 class CaliforniumCoapService @Inject constructor() : CoapService {
-
     private val executor: Executor = Executors.newSingleThreadExecutor()
     private val port = 5683
-
     private var server: CoapServer? = null
-    private var stop = false
 
+    @Volatile override var state = CoapService.ServerState.Stopped
+    init {
+        println("init")
+    }
+
+    override var stateListener: CoapService.ServerStateChangedListener? = null
+
+    private fun changeState(newState: CoapService.ServerState) {
+        state = newState
+        stateListener?.onServerStateChanged(newState)
+    }
     override fun start() {
-        Log.i("coap", "onStartCommand service")
-        executor.execute {
-            val config: Configuration = Configuration.createStandardWithoutFile()
-            val server = CoapServer(config)
-            val multicast = NetworkInterfacesUtil.getMulticastInterface()
-            if (multicast == null) {
-                setupUdp(server, config)
-            } else {
-                setupUdpIpv4(server, config)
-                setupUdpIpv6(server, config)
+        if (state == CoapService.ServerState.Stopped) {
+            changeState(CoapService.ServerState.Starting)
+            executor.execute {
+                val config: Configuration = Configuration.createStandardWithoutFile()
+                val server = CoapServer(config)
+                val multicast = NetworkInterfacesUtil.getMulticastInterface()
+                if (multicast == null) {
+                    setupUdp(server, config)
+                } else {
+                    setupUdpIpv4(server, config)
+                    setupUdpIpv6(server, config)
+                }
+                server.add(HelloWorldResource())
+                server.add(MyIpResource(MyIpResource.RESOURCE_NAME, true))
+                startServer(server)
             }
-            server.add(HelloWorldResource())
-            server.add(MyIpResource(MyIpResource.RESOURCE_NAME, true))
-            startServer(server)
         }
     }
 
@@ -47,19 +58,22 @@ class CaliforniumCoapService @Inject constructor() : CoapService {
 
     @Synchronized
     private fun startServer(server: CoapServer) {
-        if (!stop) {
-            server.start()
-            this.server = server
-        }
+        server.start()
+        this.server = server
+        changeState(CoapService.ServerState.Listening)
     }
 
     @Synchronized
     private fun stopServer() {
-        stop = true
-        val coapServer = server
-        if (coapServer != null) {
-            server = null
-            executor.execute { coapServer.destroy() }
+        if (state != CoapService.ServerState.Stopped) {
+            changeState(CoapService.ServerState.Stopping)
+            val coapServer = server
+            if (coapServer != null) {
+                server = null
+                executor.execute { coapServer.destroy() }
+            }
+
+            changeState(CoapService.ServerState.Stopped)
         }
     }
 
@@ -72,7 +86,6 @@ class CaliforniumCoapService @Inject constructor() : CoapService {
         val multicast = NetworkInterfacesUtil.getMulticastInterface()
         val address4 = NetworkInterfacesUtil.getMulticastInterfaceIpv4()
 
-        // listen on the same port requires to enable address reuse
         val connector = UDPConnector(InetSocketAddress(address4, port), config)
         connector.reuseAddress = true
         val builder = UdpMulticastConnector.Builder()
@@ -82,10 +95,7 @@ class CaliforniumCoapService @Inject constructor() : CoapService {
         builder.setConfiguration(config)
         val multicastConnector = builder.build()
         connector.addMulticastReceiver(multicastConnector)
-        Log.i(
-            "coap", "multicast receiver " + CoAP.MULTICAST_IPV4 +
-                    " started on " + address4
-        )
+        Log.i("coap", "multicast receiver " + CoAP.MULTICAST_IPV4 + " started on " + address4)
         setupUdp(server, config, connector)
     }
 
@@ -93,7 +103,6 @@ class CaliforniumCoapService @Inject constructor() : CoapService {
         val multicast = NetworkInterfacesUtil.getMulticastInterface()
         val address6 = NetworkInterfacesUtil.getMulticastInterfaceIpv6()
 
-        // listen on the same port requires to enable address reuse
         val connector = UDPConnector(InetSocketAddress(address6, port), config)
         connector.reuseAddress = true
         val builder = UdpMulticastConnector.Builder()
@@ -104,8 +113,8 @@ class CaliforniumCoapService @Inject constructor() : CoapService {
         val multicastConnector = builder.build()
         connector.addMulticastReceiver(multicastConnector)
         Log.i(
-            "coap", "multicast receiver " + CoAP.MULTICAST_IPV6_SITELOCAL +
-                    " started on " + address6
+            "coap",
+            "multicast receiver " + CoAP.MULTICAST_IPV6_SITELOCAL + " started on " + address6
         )
         setupUdp(server, config, connector)
     }
