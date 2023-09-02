@@ -1,5 +1,6 @@
 package ae.geekhome.panel
 
+import ae.geekhome.panel.coap.CoAPServer
 import ae.geekhome.panel.ui.theme.AEPanelTheme
 import android.os.Bundle
 import android.view.Window
@@ -12,9 +13,16 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    @Inject
+    lateinit var coapServer: CoAPServer
+
     override fun onCreate(savedInstanceState: Bundle?) {
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         super.onCreate(savedInstanceState)
@@ -30,6 +38,16 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        coapServer.start()
+    }
+
+    override fun onStop() {
+        coapServer.stop()
+        super.onStop()
     }
 }
 
