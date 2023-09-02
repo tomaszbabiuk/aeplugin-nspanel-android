@@ -1,9 +1,8 @@
-package aa.geekhome.panel
+package ae.geekhome.panel
 
-import aa.geekhome.panel.ui.theme.AEPanelTheme
+import ae.geekhome.panel.ui.theme.AEPanelTheme
 import android.os.Bundle
 import android.view.Window
-import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize

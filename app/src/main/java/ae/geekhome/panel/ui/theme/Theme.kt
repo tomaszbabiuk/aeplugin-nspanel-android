@@ -1,4 +1,4 @@
-package aa.geekhome.panel.ui.theme
+package ae.geekhome.panel.ui.theme
 
 import android.app.Activity
 import android.os.Build

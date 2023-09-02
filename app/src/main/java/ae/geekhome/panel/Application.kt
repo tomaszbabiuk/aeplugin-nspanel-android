@@ -1,4 +1,4 @@
-package aa.geekhome.panel
+package ae.geekhome.panel
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp

@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
-
 plugins {
     kotlin("kapt")
     id("com.android.application")
@@ -8,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "aa.geekhome.panel"
+    namespace = "ae.geekhome.panel"
     compileSdk = 33
 
     defaultConfig {
-        applicationId = "aa.geekhome.panel"
+        applicationId = "ae.geekhome.panel"
         minSdk = 27
         targetSdk = 33
         versionCode = 1
