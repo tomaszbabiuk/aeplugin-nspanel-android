@@ -18,7 +18,7 @@ import org.eclipse.californium.elements.util.NetworkInterfacesUtil
 @Singleton
 class CaliforniumCoapService @Inject constructor() : CoapService {
     private val executor: Executor = Executors.newSingleThreadExecutor()
-    private val port = 5683
+    override val port = 5683
     private var server: CoapServer? = null
 
     @Volatile override var state = CoapService.ServerState.Stopped

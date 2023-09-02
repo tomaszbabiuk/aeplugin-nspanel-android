@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">AEPanel</string>
-    <string name="screen_welcome">Welcome</string>
+    <string name="welcome_title">Welcome</string>
     <string name="welcome_ip4_address">Address IP4: </string>
     <string name="welcome_ip6_address">Address IP6: </string>
+    <string name="welcome_port">Port: </string>
     <string name="welcome_server_state">Server state: </string>
 </resources>

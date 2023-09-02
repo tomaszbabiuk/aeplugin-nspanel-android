@@ -14,7 +14,7 @@ interface CoapService {
 
     fun start()
     fun stop()
-
+    val port: Int
     var state: ServerState
     var stateListener: ServerStateChangedListener?
 }

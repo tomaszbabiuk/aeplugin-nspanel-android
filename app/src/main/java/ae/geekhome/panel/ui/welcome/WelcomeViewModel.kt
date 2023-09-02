@@ -15,6 +15,7 @@ class WelcomeViewModel @Inject constructor(private val coapService: CoapService)
     val ip4Address: Inet4Address = NetworkInterfacesUtil.getMulticastInterfaceIpv4()
     val ip6Address: Inet6Address = NetworkInterfacesUtil.getMulticastInterfaceIpv6()
     val state = mutableStateOf(coapService.state)
+    val port = coapService.port
 
     init {
         coapService.stateListener = this

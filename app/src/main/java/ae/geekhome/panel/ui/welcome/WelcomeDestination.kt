@@ -18,7 +18,7 @@ class WelcomeDestination : Destination() {
         WelcomeScreen(vm = vm)
     }
     override val titleRes: Int
-        get() = R.string.screen_welcome
+        get() = R.string.welcome_title
 
     companion object {
         fun buildRoute(): String {
