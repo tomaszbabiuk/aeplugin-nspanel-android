@@ -1,4 +1,4 @@
-package aa.geekhome.aetablet
+package aa.geekhome.panel
 
 import org.junit.Test
 

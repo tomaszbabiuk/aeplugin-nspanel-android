@@ -13,5 +13,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Automate Everything Tablet"
+rootProject.name = "AEPanel"
 include(":app")
+ 

@@ -1,4 +1,4 @@
-package aa.geekhome.aetablet.ui.theme
+package aa.geekhome.panel.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
