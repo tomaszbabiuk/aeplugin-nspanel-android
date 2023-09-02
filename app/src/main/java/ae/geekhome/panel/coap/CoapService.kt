@@ -1,6 +1,6 @@
 package ae.geekhome.panel.coap
 
-interface CoAPServer {
+interface CoapService {
     fun start()
     fun stop()
 }

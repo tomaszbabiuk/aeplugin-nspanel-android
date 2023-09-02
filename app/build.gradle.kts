@@ -76,6 +76,9 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.46.1")
     kapt("com.google.dagger:hilt-android-compiler:2.44")
 
+    //slf4j
+    implementation("org.slf4j:slf4j-api:2.0.7")
+    implementation("org.slf4j:slf4j-android:1.7.36")
 
     testImplementation("junit:junit:4.13.2")
 

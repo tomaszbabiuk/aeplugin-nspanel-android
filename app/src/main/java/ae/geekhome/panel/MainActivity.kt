@@ -1,6 +1,6 @@
 package ae.geekhome.panel
 
-import ae.geekhome.panel.coap.CoAPServer
+import ae.geekhome.panel.coap.CoapService
 import ae.geekhome.panel.ui.theme.AEPanelTheme
 import android.os.Bundle
 import android.view.Window
@@ -21,7 +21,7 @@ import javax.inject.Inject
 class MainActivity : ComponentActivity() {
 
     @Inject
-    lateinit var coapServer: CoAPServer
+    lateinit var coapService: CoapService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -42,11 +42,11 @@ class MainActivity : ComponentActivity() {
 
     override fun onStart() {
         super.onStart()
-        coapServer.start()
+        coapService.start()
     }
 
     override fun onStop() {
-        coapServer.stop()
+        coapService.stop()
         super.onStop()
     }
 }
