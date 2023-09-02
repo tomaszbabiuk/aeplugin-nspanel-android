@@ -22,9 +22,6 @@ class CaliforniumCoapService @Inject constructor() : CoapService {
     private var server: CoapServer? = null
 
     @Volatile override var state = CoapService.ServerState.Stopped
-    init {
-        println("init")
-    }
 
     override var stateListener: CoapService.ServerStateChangedListener? = null
 
