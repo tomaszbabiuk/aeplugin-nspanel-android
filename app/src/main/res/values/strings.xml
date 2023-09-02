@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">AEPanel</string>
+    <string name="screen_welcome">Welcome</string>
 </resources>

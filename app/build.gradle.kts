@@ -75,6 +75,10 @@ dependencies {
     //hilt
     implementation("com.google.dagger:hilt-android:2.46.1")
     kapt("com.google.dagger:hilt-android-compiler:2.44")
+    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
+
+    //compose navigation
+    implementation("androidx.navigation:navigation-compose:2.7.1")
 
     //slf4j
     implementation("org.slf4j:slf4j-api:2.0.7")
