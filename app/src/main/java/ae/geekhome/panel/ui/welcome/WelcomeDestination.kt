@@ -21,6 +21,7 @@ class WelcomeDestination : Destination() {
         get() = R.string.welcome_title
 
     companion object {
+        @Suppress("unused")
         fun buildRoute(): String {
             return buildRoutePrefix(WelcomeDestination::class.java)
         }
