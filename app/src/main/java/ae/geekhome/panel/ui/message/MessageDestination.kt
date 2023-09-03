@@ -44,7 +44,7 @@ class MessageDestination : Destination() {
     @Serializable
     data class MessageNavParams(
         val title: String,
-        val message: String,
+        val content: String,
         val options: Array<String>
     ) {
         override fun equals(other: Any?): Boolean {
@@ -54,7 +54,7 @@ class MessageDestination : Destination() {
             other as MessageNavParams
 
             if (title != other.title) return false
-            if (message != other.message) return false
+            if (content != other.content) return false
             if (!options.contentEquals(other.options)) return false
 
             return true
@@ -62,7 +62,7 @@ class MessageDestination : Destination() {
 
         override fun hashCode(): Int {
             var result = title.hashCode()
-            result = 31 * result + message.hashCode()
+            result = 31 * result + content.hashCode()
             result = 31 * result + options.contentHashCode()
             return result
         }

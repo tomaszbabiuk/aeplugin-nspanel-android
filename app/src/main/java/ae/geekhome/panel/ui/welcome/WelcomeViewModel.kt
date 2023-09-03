@@ -39,8 +39,22 @@ constructor(private val coapService: CoapService, routeNavigator: RouteNavigator
 
     fun onGoToMessage() {
         val title = "title"
-        val message = "message"
-        val options = arrayOf("option1", "option2")
-        navigateToRoute(MessageDestination.buildRoute(title, message, options))
+        val content = "This is some long message"
+        val options =
+            arrayOf(
+                "option1",
+                "option2",
+                "option3",
+                "option4",
+                "option5",
+                "option6",
+                "option7",
+                "option8",
+                "option9",
+                "option10",
+                "option11",
+                "option12",
+            )
+        navigateToRoute(MessageDestination.buildRoute(title, content, options))
     }
 }
