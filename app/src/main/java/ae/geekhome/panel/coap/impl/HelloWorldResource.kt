@@ -1,4 +1,4 @@
-package ae.geekhome.panel.coap
+package ae.geekhome.panel.coap.impl
 
 import org.eclipse.californium.core.CoapResource
 import org.eclipse.californium.core.server.resources.CoapExchange

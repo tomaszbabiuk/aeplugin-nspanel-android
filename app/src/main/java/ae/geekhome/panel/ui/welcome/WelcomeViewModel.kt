@@ -1,6 +1,8 @@
 package ae.geekhome.panel.ui.welcome
 
 import ae.geekhome.panel.coap.CoapService
+import ae.geekhome.panel.navigation.RouteNavigator
+import ae.geekhome.panel.ui.message.MessageDestination
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -10,8 +12,10 @@ import javax.inject.Inject
 import org.eclipse.californium.elements.util.NetworkInterfacesUtil
 
 @HiltViewModel
-class WelcomeViewModel @Inject constructor(private val coapService: CoapService) :
-    ViewModel(), CoapService.ServerStateChangedListener {
+class WelcomeViewModel
+@Inject
+constructor(private val coapService: CoapService, routeNavigator: RouteNavigator) :
+    ViewModel(), CoapService.ServerStateChangedListener, RouteNavigator by routeNavigator {
     val ip4Address: Inet4Address = NetworkInterfacesUtil.getMulticastInterfaceIpv4()
     val ip6Address: Inet6Address = NetworkInterfacesUtil.getMulticastInterfaceIpv6()
     val state = mutableStateOf(coapService.state)
@@ -31,5 +35,12 @@ class WelcomeViewModel @Inject constructor(private val coapService: CoapService)
 
     override fun onServerStateChanged(state: CoapService.ServerState) {
         this@WelcomeViewModel.state.value = state
+    }
+
+    fun onGoToMessage() {
+        val title = "title"
+        val message = "message"
+        val options = arrayOf("option1", "option2")
+        navigateToRoute(MessageDestination.buildRoute(title, message, options))
     }
 }

@@ -1,12 +1,11 @@
-package ae.geekhome.panel.coap
+package ae.geekhome.panel.coap.impl
 
 import org.eclipse.californium.core.CoapResource
 import org.eclipse.californium.core.coap.CoAP
 import org.eclipse.californium.core.server.resources.CoapExchange
 
 class PubSubResource : CoapResource("pub") {
-    @Volatile
-    private var resource = "initial value"
+    @Volatile private var resource = "initial value"
 
     init {
         isObservable = true

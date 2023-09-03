@@ -1,5 +1,6 @@
-package ae.geekhome.panel.coap
+package ae.geekhome.panel.coap.impl
 
+import ae.geekhome.panel.coap.CoapService
 import android.util.Log
 import java.net.InetSocketAddress
 import java.util.concurrent.Executor

@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -21,6 +22,7 @@ fun WelcomeScreen(vm: WelcomeViewModel) {
             StatusRow(stringResource(id = R.string.welcome_port), vm.port.toString())
             StatusRow(stringResource(id = R.string.welcome_server_state), vm.state.value.toString())
         }
+        Button(onClick = { vm.onGoToMessage() }) { Text("Go to message") }
     }
 }
 
