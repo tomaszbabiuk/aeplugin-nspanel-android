@@ -3,7 +3,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.dagger.hilt.android")
-    // id("org.jetbrains.kotlin.plugin.serialization")
+    id("org.jetbrains.kotlin.plugin.serialization")
 }
 
 android {
@@ -79,7 +79,7 @@ dependencies {
     implementation("org.slf4j:slf4j-android:1.7.36")
 
     // cbor
-    // implementation("org.jetbrains.kotlinx:kotlinx-serialization-cbor:1.6.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-cbor:1.6.0")
 
     testImplementation("junit:junit:4.13.2")
 

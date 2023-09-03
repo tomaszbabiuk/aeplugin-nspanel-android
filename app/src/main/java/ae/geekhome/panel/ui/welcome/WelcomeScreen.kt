@@ -21,8 +21,8 @@ fun WelcomeScreen(vm: WelcomeViewModel) {
             StatusRow(stringResource(id = R.string.welcome_ip6_address), vm.ip6Address.toString())
             StatusRow(stringResource(id = R.string.welcome_port), vm.port.toString())
             StatusRow(stringResource(id = R.string.welcome_server_state), vm.state.value.toString())
+            Button(onClick = { vm.onGoToMessage() }) { Text("Go to message") }
         }
-        Button(onClick = { vm.onGoToMessage() }) { Text("Go to message") }
     }
 }
 

@@ -13,6 +13,8 @@
 
 package ae.geekhome.panel.navigation
 
+import android.content.Context
+import android.os.Bundle
 import androidx.compose.runtime.Composable
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavController
@@ -23,6 +25,10 @@ abstract class Destination {
         get() = listOf()
 
     abstract val titleRes: Int
+
+    open fun composeTitle(context: Context, arguments: Bundle?): String {
+        return context.resources.getString(titleRes)
+    }
 
     companion object {
         fun buildRoutePrefix(clazz: Class<*>) =
