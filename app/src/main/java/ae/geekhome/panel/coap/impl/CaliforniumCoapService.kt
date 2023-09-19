@@ -7,6 +7,7 @@ import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 import javax.inject.Inject
 import javax.inject.Singleton
+import org.eclipse.californium.core.CoapResource
 import org.eclipse.californium.core.CoapServer
 import org.eclipse.californium.core.coap.CoAP
 import org.eclipse.californium.core.network.CoapEndpoint
@@ -17,7 +18,8 @@ import org.eclipse.californium.elements.config.Configuration
 import org.eclipse.californium.elements.util.NetworkInterfacesUtil
 
 @Singleton
-class CaliforniumCoapService @Inject constructor() : CoapService {
+class CaliforniumCoapService @Inject constructor(private vararg val resources: CoapResource) :
+    CoapService {
     private val executor: Executor = Executors.newSingleThreadExecutor()
     override val port = 5683
     private var server: CoapServer? = null
@@ -43,7 +45,7 @@ class CaliforniumCoapService @Inject constructor() : CoapService {
                     setupUdpIpv4(server, config)
                     setupUdpIpv6(server, config)
                 }
-                server.add(HelloWorldResource())
+                resources.forEach { server.add(it) }
                 server.add(MyIpResource(MyIpResource.RESOURCE_NAME, true))
                 startServer(server)
             }

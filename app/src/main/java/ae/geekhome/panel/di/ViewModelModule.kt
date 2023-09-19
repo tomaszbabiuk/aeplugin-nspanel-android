@@ -12,7 +12,6 @@ import dagger.hilt.android.components.ViewModelComponent
 @Module
 @InstallIn(ViewModelComponent::class)
 abstract class ViewModelModule {
-
     @Binds abstract fun bindCoapService(impl: CaliforniumCoapService): CoapService
     @Binds abstract fun bindRouteNavigator(impl: MyRouteNavigator): RouteNavigator
 }
