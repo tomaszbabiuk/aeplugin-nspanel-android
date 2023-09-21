@@ -5,5 +5,5 @@
     <string name="welcome_ip6_address">Address IP6: </string>
     <string name="welcome_port">Port: </string>
     <string name="welcome_server_state">Server state: </string>
-    <string name="message_title">Message</string>
+    <string name="dialog_title">Dialog</string>
 </resources>

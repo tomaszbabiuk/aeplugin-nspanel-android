@@ -7,9 +7,11 @@ import kotlinx.serialization.encodeToByteArray
 import org.eclipse.californium.core.CoapResource
 import org.eclipse.californium.core.coap.CoAP
 import org.eclipse.californium.core.server.resources.CoapExchange
+import javax.inject.Singleton
 
 @Serializable data class SceneAction(val sceneId: String, val optionId: String? = null)
 
+@Singleton
 class ActiveSceneResource @Inject constructor() : CoapResource("actions") {
     @Volatile private var resource = SceneAction("welcome")
 
@@ -23,7 +25,7 @@ class ActiveSceneResource @Inject constructor() : CoapResource("actions") {
         exchange.respond(CoAP.ResponseCode.CHANGED, dataAsCbor)
     }
 
-    fun newAction(sceneId: String, optionId: String?) {
+    fun newAction(sceneId: String, optionId: String? = null) {
         resource = SceneAction(sceneId, optionId)
         changed()
     }

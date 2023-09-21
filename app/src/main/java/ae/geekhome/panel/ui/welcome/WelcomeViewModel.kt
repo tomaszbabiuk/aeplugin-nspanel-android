@@ -2,7 +2,7 @@ package ae.geekhome.panel.ui.welcome
 
 import ae.geekhome.panel.coap.CoapService
 import ae.geekhome.panel.navigation.RouteNavigator
-import ae.geekhome.panel.ui.message.MessageDestination
+import ae.geekhome.panel.ui.dialog.DialogDestination
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -55,6 +55,6 @@ constructor(private val coapService: CoapService, routeNavigator: RouteNavigator
                 "option11",
                 "option12",
             )
-        navigateToRoute(MessageDestination.buildRoute(title, content, options))
+        navigateToRoute(DialogDestination.buildRoute(title, content, options))
     }
 }

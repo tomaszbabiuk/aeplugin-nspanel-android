@@ -1,4 +1,4 @@
-package ae.geekhome.panel.ui.message
+package ae.geekhome.panel.ui.dialog
 
 import ae.geekhome.panel.R
 import ae.geekhome.panel.navigation.Destination
@@ -15,7 +15,7 @@ import kotlinx.serialization.cbor.Cbor
 import kotlinx.serialization.decodeFromHexString
 import kotlinx.serialization.encodeToHexString
 
-class MessageDestination : Destination() {
+class DialogDestination : Destination() {
     override val arguments: List<NamedNavArgument>
         get() = listOf(navArgument(ARG_CBOR) { type = NavType.StringType })
     @Composable
@@ -23,13 +23,13 @@ class MessageDestination : Destination() {
         navController: NavController,
     ) {
         val vm =
-            createViewModel<MessageViewModel>(
+            createViewModel<DialogViewModel>(
                 navController = navController,
             )
-        MessageScreen(vm = vm)
+        DialogScreen(vm = vm)
     }
     override val titleRes: Int
-        get() = R.string.message_title
+        get() = R.string.dialog_title
 
     override fun composeTitle(context: Context, arguments: Bundle?): String {
         val params = arguments?.getString(ARG_CBOR)
@@ -75,7 +75,7 @@ class MessageDestination : Destination() {
             val params = MessageNavParams(title, message, options)
             val cborHex = Cbor.encodeToHexString(params)
 
-            val prefix = buildRoutePrefix(MessageDestination::class.java)
+            val prefix = buildRoutePrefix(DialogDestination::class.java)
             return "${prefix}?$ARG_CBOR=${cborHex}"
         }
 

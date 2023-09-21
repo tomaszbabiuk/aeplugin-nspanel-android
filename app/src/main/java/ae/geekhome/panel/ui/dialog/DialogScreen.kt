@@ -1,4 +1,4 @@
-package ae.geekhome.panel.ui.message
+package ae.geekhome.panel.ui.dialog
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,14 +18,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun MessageScreen(vm: MessageViewModel) {
-    MessageScreen(vm.content, vm.options, vm::onOptionClicked)
+fun DialogScreen(vm: DialogViewModel) {
+    DialogScreen(vm.content, vm.options, vm::onOptionClicked)
 }
 
 @Composable
-fun MessageScreen(message: String, options: Array<String>, onOptionClick: (Int) -> Unit) {
+fun DialogScreen(message: String, options: Array<String>, onOptionClick: (Int) -> Unit) {
     Box(modifier = Modifier.fillMaxSize()) {
-        Column() {
+        Column {
             Text(
                 message,
                 modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
@@ -51,7 +51,7 @@ fun MessageScreen(message: String, options: Array<String>, onOptionClick: (Int) 
 @Preview(showBackground = true, widthDp = 240, heightDp = 240)
 @Composable
 fun MessageScreenPreview() {
-    MessageScreen(
+    DialogScreen(
         "message",
         arrayOf("option 1", "option 2", "option 3", "option 4", "option 5", "option 6"),
         {}
