@@ -13,12 +13,13 @@ import dagger.hilt.android.components.ViewModelComponent
 @Module
 @InstallIn(ViewModelComponent::class)
 class ViewModelModule {
+
   @Provides
-  fun bindCoapService(activeSceneResource: ActiveSceneResource): CoapService {
+  fun provideCoapService(activeSceneResource: ActiveSceneResource): CoapService {
     return CaliforniumCoapService(activeSceneResource)
   }
   @Provides
-  fun bindRouteNavigator(impl: MyRouteNavigator): RouteNavigator {
+  fun provideRouteNavigator(impl: MyRouteNavigator): RouteNavigator {
     return impl
   }
 }
