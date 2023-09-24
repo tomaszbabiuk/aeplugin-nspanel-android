@@ -49,6 +49,9 @@ android {
 
 dependencies {
 
+    //automate-everything
+    implementation("eu.automateeverything:data:0.1")
+
     // kotlin
     implementation("androidx.core:core-ktx:1.10.1")
 

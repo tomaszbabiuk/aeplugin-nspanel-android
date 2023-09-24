@@ -9,11 +9,11 @@ interface CoapService {
     }
 
     interface ServerStateChangedListener {
-        fun onServerStateChanged(state: ServerState)
+        suspend fun onServerStateChanged(state: ServerState)
     }
 
-    fun start()
-    fun stop()
+    suspend fun start()
+    suspend fun stop()
     val port: Int
     var state: ServerState
     var stateListener: ServerStateChangedListener?

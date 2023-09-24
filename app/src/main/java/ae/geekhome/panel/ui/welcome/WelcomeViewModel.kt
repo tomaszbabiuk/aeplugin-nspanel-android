@@ -5,10 +5,14 @@ import ae.geekhome.panel.navigation.RouteNavigator
 import ae.geekhome.panel.ui.dialog.DialogDestination
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.net.Inet4Address
 import java.net.Inet6Address
 import javax.inject.Inject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.eclipse.californium.elements.util.NetworkInterfacesUtil
 
 @HiltViewModel
@@ -24,18 +28,17 @@ constructor(private val coapService: CoapService, routeNavigator: RouteNavigator
     init {
         coapService.stateListener = this
         state.value = coapService.state
-        coapService.start()
+        viewModelScope.launch { coapService.start() }
     }
 
     override fun onCleared() {
-        coapService.stop()
+        viewModelScope.launch { coapService.stop() }
         coapService.stateListener = null
         super.onCleared()
     }
 
-    override fun onServerStateChanged(state: CoapService.ServerState) {
-        this@WelcomeViewModel.state.value = state
-    }
+    override suspend fun onServerStateChanged(state: CoapService.ServerState) =
+        withContext(Dispatchers.Main) { this@WelcomeViewModel.state.value = state }
 
     fun onGoToMessage() {
         val title = "title"

@@ -2,7 +2,7 @@ package ae.geekhome.panel.di
 
 import ae.geekhome.panel.coap.CoapService
 import ae.geekhome.panel.coap.impl.ActiveSceneResource
-import ae.geekhome.panel.coap.impl.AutomateEverythingResource
+import ae.geekhome.panel.coap.impl.ManifestResource
 import ae.geekhome.panel.coap.impl.CaliforniumCoapService
 import ae.geekhome.panel.navigation.MyRouteNavigator
 import ae.geekhome.panel.navigation.RouteNavigator
@@ -17,10 +17,10 @@ class ViewModelModule {
 
   @Provides
   fun provideCoapService(
-      activeSceneResource: ActiveSceneResource,
-      automateEverythingResource: AutomateEverythingResource
+    activeSceneResource: ActiveSceneResource,
+    manifestResource: ManifestResource
   ): CoapService {
-    return CaliforniumCoapService(activeSceneResource, automateEverythingResource)
+    return CaliforniumCoapService(activeSceneResource, manifestResource)
   }
   @Provides
   fun provideRouteNavigator(impl: MyRouteNavigator): RouteNavigator {

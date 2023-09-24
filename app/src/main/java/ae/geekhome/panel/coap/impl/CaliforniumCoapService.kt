@@ -3,15 +3,12 @@ package ae.geekhome.panel.coap.impl
 import ae.geekhome.panel.coap.CoapService
 import android.util.Log
 import java.net.InetSocketAddress
-import java.util.concurrent.Executor
-import java.util.concurrent.Executors
 import javax.inject.Inject
 import javax.inject.Singleton
 import org.eclipse.californium.core.CoapResource
 import org.eclipse.californium.core.CoapServer
 import org.eclipse.californium.core.coap.CoAP
 import org.eclipse.californium.core.network.CoapEndpoint
-import org.eclipse.californium.core.server.resources.DiscoveryResource
 import org.eclipse.californium.core.server.resources.MyIpResource
 import org.eclipse.californium.elements.UDPConnector
 import org.eclipse.californium.elements.UdpMulticastConnector
@@ -21,7 +18,6 @@ import org.eclipse.californium.elements.util.NetworkInterfacesUtil
 @Singleton
 class CaliforniumCoapService @Inject constructor(private vararg val resources: CoapResource) :
     CoapService {
-    private val executor: Executor = Executors.newSingleThreadExecutor()
     override val port = 5683
     private var server: CoapServer? = null
 
@@ -29,51 +25,46 @@ class CaliforniumCoapService @Inject constructor(private vararg val resources: C
 
     override var stateListener: CoapService.ServerStateChangedListener? = null
 
-    private fun changeState(newState: CoapService.ServerState) {
+    private suspend fun changeState(newState: CoapService.ServerState) {
         state = newState
         stateListener?.onServerStateChanged(newState)
     }
-    override fun start() {
+    override suspend fun start() {
         if (state == CoapService.ServerState.Stopped) {
             changeState(CoapService.ServerState.Starting)
-            executor.execute {
-                val config: Configuration = Configuration.createStandardWithoutFile()
-                val server = CoapServer(config)
-                val multicast = NetworkInterfacesUtil.getMulticastInterface()
-                if (multicast == null) {
-                    setupUdp(server, config)
-                } else {
-                    setupUdpIpv4(server, config)
-                    setupUdpIpv6(server, config)
-                }
-                resources.forEach {
-                    server.add(it)
-                }
-                server.add(MyIpResource(MyIpResource.RESOURCE_NAME, true))
-                startServer(server)
+            val config: Configuration = Configuration.createStandardWithoutFile()
+            val server = CoapServer(config)
+            val multicast = NetworkInterfacesUtil.getMulticastInterface()
+            if (multicast == null) {
+                setupUdp(server, config)
+            } else {
+                setupUdpIpv4(server, config)
+                setupUdpIpv6(server, config)
             }
+            resources.forEach { server.add(it) }
+            server.add(MyIpResource(MyIpResource.RESOURCE_NAME, true))
+            startServer(server)
         }
     }
 
-    override fun stop() {
+    override suspend fun stop() {
         stopServer()
     }
 
-    @Synchronized
-    private fun startServer(server: CoapServer) {
+    private suspend fun startServer(server: CoapServer) {
         server.start()
         this.server = server
         changeState(CoapService.ServerState.Listening)
     }
 
-    @Synchronized
-    private fun stopServer() {
+    private suspend fun stopServer() {
         if (state != CoapService.ServerState.Stopped) {
             changeState(CoapService.ServerState.Stopping)
             val coapServer = server
             if (coapServer != null) {
                 server = null
-                executor.execute { coapServer.destroy() }
+                //                executor.execute { coapServer.destroy() }
+                coapServer.destroy()
             }
 
             changeState(CoapService.ServerState.Stopped)
