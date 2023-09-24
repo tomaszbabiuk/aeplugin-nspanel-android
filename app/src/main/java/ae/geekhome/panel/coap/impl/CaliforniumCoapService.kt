@@ -11,6 +11,7 @@ import org.eclipse.californium.core.CoapResource
 import org.eclipse.californium.core.CoapServer
 import org.eclipse.californium.core.coap.CoAP
 import org.eclipse.californium.core.network.CoapEndpoint
+import org.eclipse.californium.core.server.resources.DiscoveryResource
 import org.eclipse.californium.core.server.resources.MyIpResource
 import org.eclipse.californium.elements.UDPConnector
 import org.eclipse.californium.elements.UdpMulticastConnector
@@ -45,7 +46,9 @@ class CaliforniumCoapService @Inject constructor(private vararg val resources: C
                     setupUdpIpv4(server, config)
                     setupUdpIpv6(server, config)
                 }
-                resources.forEach { server.add(it) }
+                resources.forEach {
+                    server.add(it)
+                }
                 server.add(MyIpResource(MyIpResource.RESOURCE_NAME, true))
                 startServer(server)
             }
