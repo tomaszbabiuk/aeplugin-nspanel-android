@@ -1,7 +1,11 @@
 package ae.geekhome.panel.coap.impl
 
 import ae.geekhome.panel.coap.CoapService
+import android.content.Context
+import android.net.wifi.WifiManager
 import android.util.Log
+import androidx.core.content.ContextCompat.getSystemService
+import dagger.hilt.android.qualifiers.ApplicationContext
 import java.net.InetSocketAddress
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -16,8 +20,13 @@ import org.eclipse.californium.elements.config.Configuration
 import org.eclipse.californium.elements.util.NetworkInterfacesUtil
 
 @Singleton
-class CaliforniumCoapService @Inject constructor(private vararg val resources: CoapResource) :
-    CoapService {
+class CaliforniumCoapService
+@Inject
+constructor(
+    @ApplicationContext private val context: Context,
+    private vararg val resources: CoapResource
+) : CoapService {
+    private var multicastLock: WifiManager.MulticastLock? = null
     override val port = 5683
     private var server: CoapServer? = null
 
@@ -32,6 +41,7 @@ class CaliforniumCoapService @Inject constructor(private vararg val resources: C
     override suspend fun start() {
         if (state == CoapService.ServerState.Stopped) {
             changeState(CoapService.ServerState.Starting)
+            acquireMulticastLock()
             val config: Configuration = Configuration.createStandardWithoutFile()
             val server = CoapServer(config)
             val multicast = NetworkInterfacesUtil.getMulticastInterface()
@@ -48,6 +58,7 @@ class CaliforniumCoapService @Inject constructor(private vararg val resources: C
     }
 
     override suspend fun stop() {
+        releaseMulticastLock()
         stopServer()
     }
 
@@ -69,6 +80,17 @@ class CaliforniumCoapService @Inject constructor(private vararg val resources: C
 
             changeState(CoapService.ServerState.Stopped)
         }
+    }
+
+    private fun acquireMulticastLock() {
+        val wifi = getSystemService(context, WifiManager::class.java)
+        multicastLock = wifi!!.createMulticastLock("multicastLock")
+        multicastLock?.setReferenceCounted(true)
+        multicastLock?.acquire()
+    }
+
+    private fun releaseMulticastLock() {
+        multicastLock?.release()
     }
 
     private fun setupUdp(server: CoapServer, config: Configuration) {

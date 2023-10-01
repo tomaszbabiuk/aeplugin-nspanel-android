@@ -14,6 +14,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "AEPanel"
+rootProject.name = "aeplugin-tablets-android"
 include(":app")
  

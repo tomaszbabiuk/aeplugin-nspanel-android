@@ -6,10 +6,12 @@ import ae.geekhome.panel.coap.impl.ManifestResource
 import ae.geekhome.panel.coap.impl.CaliforniumCoapService
 import ae.geekhome.panel.navigation.MyRouteNavigator
 import ae.geekhome.panel.navigation.RouteNavigator
+import android.content.Context
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
+import dagger.hilt.android.qualifiers.ApplicationContext
 
 @Module
 @InstallIn(ViewModelComponent::class)
@@ -17,10 +19,11 @@ class ViewModelModule {
 
   @Provides
   fun provideCoapService(
+    @ApplicationContext context: Context,
     activeSceneResource: ActiveSceneResource,
     manifestResource: ManifestResource
   ): CoapService {
-    return CaliforniumCoapService(activeSceneResource, manifestResource)
+    return CaliforniumCoapService(context, activeSceneResource, manifestResource)
   }
   @Provides
   fun provideRouteNavigator(impl: MyRouteNavigator): RouteNavigator {

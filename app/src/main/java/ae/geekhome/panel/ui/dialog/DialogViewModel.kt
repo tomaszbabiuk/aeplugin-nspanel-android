@@ -17,7 +17,7 @@ class DialogViewModel @Inject constructor(savedStateHandle: SavedStateHandle, pr
     }
 
     fun onOptionClicked(optionIndex: Int) {
-        activeSceneResource.newAction(sceneId, optionIndex.toString())
+        activeSceneResource.newAction(sceneId, optionIndex)
     }
 
     val options: Array<String>
