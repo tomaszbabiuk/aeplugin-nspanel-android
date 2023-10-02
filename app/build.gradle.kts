@@ -51,12 +51,13 @@ dependencies {
 
     //automate-everything
     implementation("eu.automateeverything:data:0.1")
+    implementation("eu.automateeverything:aeplugin-tablets:0.1.0")
 
     // kotlin
-    implementation("androidx.core:core-ktx:1.10.1")
+    implementation("androidx.core:core-ktx:1.12.0")
 
     // android
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
 
     // jetpack compose
     implementation("androidx.activity:activity-compose:1.7.2")
@@ -75,7 +76,7 @@ dependencies {
     implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
 
     // compose navigation
-    implementation("androidx.navigation:navigation-compose:2.7.1")
+    implementation("androidx.navigation:navigation-compose:2.7.3")
 
     // slf4j
     implementation("org.slf4j:slf4j-api:2.0.7")

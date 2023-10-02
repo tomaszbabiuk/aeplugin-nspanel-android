@@ -12,6 +12,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.android.scopes.ViewModelScoped
 
 @Module
 @InstallIn(ViewModelComponent::class)
@@ -26,6 +27,7 @@ class ViewModelModule {
     return CaliforniumCoapService(context, activeSceneResource, manifestResource)
   }
   @Provides
+  @ViewModelScoped
   fun provideRouteNavigator(impl: MyRouteNavigator): RouteNavigator {
     return impl
   }

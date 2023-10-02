@@ -6,9 +6,9 @@ import android.net.wifi.WifiManager
 import android.util.Log
 import androidx.core.content.ContextCompat.getSystemService
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.android.scopes.ViewModelScoped
 import java.net.InetSocketAddress
 import javax.inject.Inject
-import javax.inject.Singleton
 import org.eclipse.californium.core.CoapResource
 import org.eclipse.californium.core.CoapServer
 import org.eclipse.californium.core.coap.CoAP
@@ -19,7 +19,7 @@ import org.eclipse.californium.elements.UdpMulticastConnector
 import org.eclipse.californium.elements.config.Configuration
 import org.eclipse.californium.elements.util.NetworkInterfacesUtil
 
-@Singleton
+@ViewModelScoped
 class CaliforniumCoapService
 @Inject
 constructor(

@@ -26,7 +26,7 @@ class DialogViewModel @Inject constructor(savedStateHandle: SavedStateHandle, pr
     init {
         val params: String = savedStateHandle[DialogDestination.ARG_CBOR]!!
         val paramsDecoded = DialogDestination.decodeNavParams(params)
-        content = paramsDecoded.content
+        content = paramsDecoded.headline
         options = paramsDecoded.options
     }
 }

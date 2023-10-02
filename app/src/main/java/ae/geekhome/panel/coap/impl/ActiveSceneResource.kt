@@ -1,18 +1,22 @@
 package ae.geekhome.panel.coap.impl
 
-import eu.automateeverything.data.coap.ActiveSceneDto
+import ae.geekhome.panel.navigation.RouteNavigator
+import ae.geekhome.panel.ui.dialog.DialogDestination
+import dagger.hilt.android.scopes.ViewModelScoped
+import eu.automateeverything.tabletsplugin.interop.ActiveSceneDto
 import javax.inject.Inject
-import javax.inject.Singleton
 import kotlinx.serialization.BinaryFormat
 import kotlinx.serialization.encodeToByteArray
 import org.eclipse.californium.core.CoapResource
 import org.eclipse.californium.core.coap.CoAP
 import org.eclipse.californium.core.server.resources.CoapExchange
 
-@Singleton
-class ActiveSceneResource @Inject constructor(private val binaryFormat: BinaryFormat) :
+@ViewModelScoped
+class ActiveSceneResource
+@Inject
+constructor(private val binaryFormat: BinaryFormat, private val routeNavigator: RouteNavigator) :
     CoapResource("actions") {
-    @Volatile private var resource = ActiveSceneDto("welcome")
+    @Volatile private var resource = ActiveSceneDto("welcome", null, null, null)
 
     init {
         isObservable = true
@@ -24,8 +28,19 @@ class ActiveSceneResource @Inject constructor(private val binaryFormat: BinaryFo
         exchange.respond(CoAP.ResponseCode.CHANGED, dataAsCbor)
     }
 
+    override fun handlePUT(exchange: CoapExchange?) {
+        resource =
+            binaryFormat.decodeFromByteArray(ActiveSceneDto.serializer(), exchange!!.requestPayload)
+
+        if (resource.dialog != null) {
+            routeNavigator.navigateToRoute(DialogDestination.buildRoute(resource.dialog!!.title, resource.dialog!!.headline, resource.dialog!!.options))
+        }
+
+        exchange.respond(CoAP.ResponseCode.CHANGED)
+    }
+
     fun newAction(sceneId: String, optionId: Int? = null) {
-        resource = ActiveSceneDto(sceneId, optionId)
+        resource = ActiveSceneDto(sceneId, optionId, null, null)
         changed()
     }
 }

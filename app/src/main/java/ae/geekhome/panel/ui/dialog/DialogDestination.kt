@@ -42,19 +42,19 @@ class DialogDestination : Destination() {
     }
 
     @Serializable
-    data class MessageNavParams(
+    data class DialogNavParams(
         val title: String,
-        val content: String,
+        val headline: String,
         val options: Array<String>
     ) {
         override fun equals(other: Any?): Boolean {
             if (this === other) return true
             if (javaClass != other?.javaClass) return false
 
-            other as MessageNavParams
+            other as DialogNavParams
 
             if (title != other.title) return false
-            if (content != other.content) return false
+            if (headline != other.headline) return false
             if (!options.contentEquals(other.options)) return false
 
             return true
@@ -62,7 +62,7 @@ class DialogDestination : Destination() {
 
         override fun hashCode(): Int {
             var result = title.hashCode()
-            result = 31 * result + content.hashCode()
+            result = 31 * result + headline.hashCode()
             result = 31 * result + options.contentHashCode()
             return result
         }
@@ -71,15 +71,15 @@ class DialogDestination : Destination() {
     companion object {
         const val ARG_CBOR = "cbor"
 
-        fun buildRoute(title: String, message: String, options: Array<String>): String {
-            val params = MessageNavParams(title, message, options)
+        fun buildRoute(title: String, headline: String, options: Array<String>): String {
+            val params = DialogNavParams(title, headline, options)
             val cborHex = Cbor.encodeToHexString(params)
 
             val prefix = buildRoutePrefix(DialogDestination::class.java)
             return "${prefix}?$ARG_CBOR=${cborHex}"
         }
 
-        fun decodeNavParams(cborHex: String): MessageNavParams {
+        fun decodeNavParams(cborHex: String): DialogNavParams {
             return Cbor.decodeFromHexString(cborHex)
         }
     }

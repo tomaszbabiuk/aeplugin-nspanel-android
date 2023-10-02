@@ -12,9 +12,9 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 class AppModule {
-    @OptIn(ExperimentalSerializationApi::class)
     @Singleton
     @Provides
+    @OptIn(ExperimentalSerializationApi::class)
     fun provideBinaryFormat() : BinaryFormat {
         return Cbor
     }
