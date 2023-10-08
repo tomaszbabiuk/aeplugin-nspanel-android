@@ -2,7 +2,7 @@ package ae.geekhome.panel.coap.impl
 
 import ae.geekhome.panel.navigation.RouteNavigator
 import ae.geekhome.panel.ui.dialog.DialogDestination
-import dagger.hilt.android.scopes.ViewModelScoped
+import dagger.hilt.android.scopes.ActivityRetainedScoped
 import eu.automateeverything.tabletsplugin.interop.ActiveSceneDto
 import javax.inject.Inject
 import kotlinx.serialization.BinaryFormat
@@ -11,11 +11,11 @@ import org.eclipse.californium.core.CoapResource
 import org.eclipse.californium.core.coap.CoAP
 import org.eclipse.californium.core.server.resources.CoapExchange
 
-@ViewModelScoped
+@ActivityRetainedScoped
 class ActiveSceneResource
 @Inject
 constructor(private val binaryFormat: BinaryFormat, private val routeNavigator: RouteNavigator) :
-    CoapResource("actions") {
+    CoapResource("activescene") {
     @Volatile private var resource = ActiveSceneDto("welcome", null, null, null)
 
     init {
@@ -33,7 +33,13 @@ constructor(private val binaryFormat: BinaryFormat, private val routeNavigator: 
             binaryFormat.decodeFromByteArray(ActiveSceneDto.serializer(), exchange!!.requestPayload)
 
         if (resource.dialog != null) {
-            routeNavigator.navigateToRoute(DialogDestination.buildRoute(resource.dialog!!.title, resource.dialog!!.headline, resource.dialog!!.options))
+            routeNavigator.navigateToRoute(
+                DialogDestination.buildRoute(
+                    resource.dialog!!.title,
+                    resource.dialog!!.headline,
+                    resource.dialog!!.options
+                )
+            )
         }
 
         exchange.respond(CoAP.ResponseCode.CHANGED)

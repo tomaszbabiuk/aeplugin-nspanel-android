@@ -6,7 +6,7 @@ import android.net.wifi.WifiManager
 import android.util.Log
 import androidx.core.content.ContextCompat.getSystemService
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dagger.hilt.android.scopes.ViewModelScoped
+import dagger.hilt.android.scopes.ActivityRetainedScoped
 import java.net.InetSocketAddress
 import javax.inject.Inject
 import org.eclipse.californium.core.CoapResource
@@ -19,7 +19,7 @@ import org.eclipse.californium.elements.UdpMulticastConnector
 import org.eclipse.californium.elements.config.Configuration
 import org.eclipse.californium.elements.util.NetworkInterfacesUtil
 
-@ViewModelScoped
+@ActivityRetainedScoped
 class CaliforniumCoapService
 @Inject
 constructor(
