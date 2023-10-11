@@ -2,7 +2,6 @@ package ae.geekhome.panel.ui.welcome
 
 import ae.geekhome.panel.coap.CoapService
 import ae.geekhome.panel.navigation.RouteNavigator
-import ae.geekhome.panel.ui.dialog.DialogDestination
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -39,29 +38,4 @@ constructor(private val coapService: CoapService, routeNavigator: RouteNavigator
 
     override suspend fun onServerStateChanged(state: CoapService.ServerState) =
         withContext(Dispatchers.Main) { this@WelcomeViewModel.state.value = state }
-
-    fun onGoToMessage() {
-        val title = "title"
-        val content = "This is some long message"
-        val options =
-            arrayOf(
-                "option1",
-                "option2",
-                "option3",
-                "option4",
-                "option5",
-                "option6",
-                "option7",
-                "option8",
-                "option9",
-                "option10",
-                "option11",
-                "option12",
-            )
-        navigateToRoute(DialogDestination.buildRoute(title, content, options))
-
-        val title2 = "title2"
-        val content2 = "This is some long message2"
-        navigateToRoute(DialogDestination.buildRoute(title2, content2, arrayOf()))
-    }
 }

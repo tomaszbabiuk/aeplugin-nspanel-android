@@ -1,6 +1,7 @@
 package ae.geekhome.panel.ui.dialog
 
 import ae.geekhome.panel.coap.impl.ActiveSceneResource
+import ae.geekhome.panel.navigation.RouteNavigator
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -11,8 +12,9 @@ class DialogViewModel
 @Inject
 constructor(
     savedStateHandle: SavedStateHandle,
+    private val routeNavigator: RouteNavigator,
     private val activeSceneResource: ActiveSceneResource
-) : ViewModel() {
+) : ViewModel(), RouteNavigator by routeNavigator {
 
     init {
         activeSceneResource.newAction(activeSceneResource.sceneId)
