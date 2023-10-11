@@ -29,6 +29,10 @@ interface RouteNavigator {
 
 class MyRouteNavigator @Inject constructor() : RouteNavigator {
 
+    init {
+        println("Init route navigator")
+    }
+
     override val navigationState: MutableStateFlow<NavigationState> =
         MutableStateFlow(NavigationState.Idle)
 

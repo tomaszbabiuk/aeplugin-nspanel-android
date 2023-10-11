@@ -18,6 +18,9 @@ constructor(private val binaryFormat: BinaryFormat, private val routeNavigator: 
     CoapResource("activescene") {
     @Volatile private var resource = ActiveSceneDto("welcome", null, null, null)
 
+    val sceneId: String
+        get() = resource.sceneId
+
     init {
         isObservable = true
         attributes.title = "Active scene with selected options"

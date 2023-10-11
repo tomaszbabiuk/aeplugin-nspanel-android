@@ -59,5 +59,9 @@ constructor(private val coapService: CoapService, routeNavigator: RouteNavigator
                 "option12",
             )
         navigateToRoute(DialogDestination.buildRoute(title, content, options))
+
+        val title2 = "title2"
+        val content2 = "This is some long message2"
+        navigateToRoute(DialogDestination.buildRoute(title2, content2, arrayOf()))
     }
 }

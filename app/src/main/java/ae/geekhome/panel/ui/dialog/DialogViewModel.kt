@@ -4,20 +4,22 @@ import ae.geekhome.panel.coap.impl.ActiveSceneResource
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
-class DialogViewModel @Inject constructor(savedStateHandle: SavedStateHandle, private val activeSceneResource: ActiveSceneResource) : ViewModel() {
-
-    private val sceneId = UUID.randomUUID().toString()
+class DialogViewModel
+@Inject
+constructor(
+    savedStateHandle: SavedStateHandle,
+    private val activeSceneResource: ActiveSceneResource
+) : ViewModel() {
 
     init {
-        activeSceneResource.newAction(sceneId)
+        activeSceneResource.newAction(activeSceneResource.sceneId)
     }
 
     fun onOptionClicked(optionIndex: Int) {
-        activeSceneResource.newAction(sceneId, optionIndex)
+        activeSceneResource.newAction(activeSceneResource.sceneId, optionIndex)
     }
 
     val options: Array<String>
