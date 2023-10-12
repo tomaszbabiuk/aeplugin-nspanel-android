@@ -28,7 +28,7 @@ constructor(private val binaryFormat: BinaryFormat, private val routeNavigator: 
 
     override fun handleGET(exchange: CoapExchange) {
         val dataAsCbor = binaryFormat.encodeToByteArray(resource)
-        exchange.respond(CoAP.ResponseCode.CHANGED, dataAsCbor)
+        exchange.respond(CoAP.ResponseCode.CONTENT, dataAsCbor)
     }
 
     override fun handlePUT(exchange: CoapExchange?) {

@@ -74,7 +74,6 @@ constructor(
             val coapServer = server
             if (coapServer != null) {
                 server = null
-                //                executor.execute { coapServer.destroy() }
                 coapServer.destroy()
             }
 
