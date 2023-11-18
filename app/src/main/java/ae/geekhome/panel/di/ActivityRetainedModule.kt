@@ -1,7 +1,7 @@
 package ae.geekhome.panel.di
 
 import ae.geekhome.panel.coap.CoapService
-import ae.geekhome.panel.coap.impl.ActiveSceneResource
+import ae.geekhome.panel.coap.impl.DashboardResource
 import ae.geekhome.panel.coap.impl.CaliforniumCoapService
 import ae.geekhome.panel.coap.impl.ManifestResource
 import ae.geekhome.panel.navigation.MyRouteNavigator
@@ -22,10 +22,10 @@ class ActivityRetainedModule {
     @ActivityRetainedScoped
     fun provideCoapService(
         @ApplicationContext context: Context,
-        activeSceneResource: ActiveSceneResource,
+        dashboardResource: DashboardResource,
         manifestResource: ManifestResource
     ): CoapService {
-        return CaliforniumCoapService(context, activeSceneResource, manifestResource)
+        return CaliforniumCoapService(context, dashboardResource, manifestResource)
     }
     @Provides
     @ActivityRetainedScoped
