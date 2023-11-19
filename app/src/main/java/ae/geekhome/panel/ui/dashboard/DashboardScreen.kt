@@ -44,12 +44,12 @@ fun DashboardScreen(dashboard: DashboardItem, onButtonClick: (String) -> Unit) {
                         )
                     }
 
-                    if (it.button != null) {
+                    if (it.navigationButton != null) {
                         Button(
                             modifier = Modifier.align(Alignment.CenterHorizontally),
-                            onClick = { onButtonClick(it.button!!.ref) }
+                            onClick = { onButtonClick(it.navigationButton!!.ref) }
                         ) {
-                            Text(it.button!!.text)
+                            Text(it.navigationButton!!.label)
                         }
                     }
                 }
